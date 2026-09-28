@@ -1,0 +1,28 @@
+name: Windows Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Show Windows information
+        shell: pwsh
+        run: |
+          Write-Host "Windows runner is running!"
+          Get-ComputerInfo |
+            Select-Object WindowsProductName, WindowsVersion, OsArchitecture
+
+      - name: Check hardware
+        shell: pwsh
+        run: |
+          Get-CimInstance Win32_Processor |
+            Select-Object Name, NumberOfCores
+
+          Get-CimInstance Win32_ComputerSystem |
+            Select-Object TotalPhysicalMemory
+
+          Get-PSDrive C |
+            Select-Object Used, Free
